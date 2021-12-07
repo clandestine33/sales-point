@@ -1,5 +1,5 @@
 export class APIS{
-  public static generalURL = "http://localhost:3000/";
+  public static generalURL = "https://sales-point-service.herokuapp.com/";
 
   public static authURL = APIS.generalURL +"auth/";
 
