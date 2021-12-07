@@ -14,19 +14,21 @@
       <p class="detail-content-body">Creitificates</p>
       <div class="detail-content-certificate">
         <ng-container  *ngFor="let certificate of shop?.certificates">
-          <div *ngIf="certificate?.type != 'logo'">
-            <div *ngIf="certificate?.type != 'document'">
-              <img class="detail-content-certificate-image" src="../../../assets/docs.png"/>
-            </div>
-            <div *ngIf="certificate?.type != 'image'">
+          <div style="display: flex; flex-direction: column;" *ngIf="certificate?.type != 'logo'">
+            <ng-container *ngIf="certificate?.type != 'document'">
               <img class="detail-content-certificate-image" src="../../../assets/picture.png"/>
-            </div>
+              <a href={{certificate?.URL}} download>Download <span><fa-icon size="1x" [icon]="download"></fa-icon></span></a>
+            </ng-container>
+            <ng-container *ngIf="certificate?.type != 'image'">
+              <img class="detail-content-certificate-image" src="../../../assets/docs.png"/>
+              <a href={{certificate?.URL}} download>Download <span><fa-icon size="1x" [icon]="download"></fa-icon></span></a>
+            </ng-container>
           </div>
         </ng-container>
       </div>
       <div class="detail-content-btn_holder">
-        <button class="approve-button">Approve</button>
-        <button class="decline-button">Delete</button>
+        <button class="approve-button" (click)="onApprove()">Approve</button>
+        <button class="decline-button" (click)="deleteShop()">Delete</button>
       </div>
     </div>
   </div>

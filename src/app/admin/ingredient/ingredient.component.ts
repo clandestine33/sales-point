@@ -16,7 +16,7 @@ export class IngredientComponent implements OnInit {
   submit = false;
   ingredient!: Ingredient;
   isCreate: Boolean = true;
-  itemPerPage = 10;
+  itemPerPage = 5;
   paginationConfig:any = {};
   constructor( private ingredientService: IngredientService,
     private _formBuilder:FormBuilder, private categoryService: CategoryService) { }
@@ -37,8 +37,7 @@ export class IngredientComponent implements OnInit {
 
   createForm(){
     this.ingredientForm = this._formBuilder.group({
-      ingredient: ['', Validators.required],
-      calorie: ['', Validators.required]
+      ingredient: ['', Validators.required]
     })
   }
 

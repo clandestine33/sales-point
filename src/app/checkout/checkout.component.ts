@@ -47,6 +47,7 @@ export class CheckoutComponent implements OnInit {
     this.getCartsByUser();
     this.createForm();
     this.loadStripe();
+    this.getOrdersByUserfind()
     this.paginationConfig = {
       itemsPerPage: this.itemPerPage,
       currentPage: 1,
@@ -115,6 +116,7 @@ export class CheckoutComponent implements OnInit {
       }else{
         this.totalCalories = this.orders[0].calorie * this.orders[0].quantity;
       }
+      this.totalCalories.toFixed(2)
     }, (error: any) => {
       console.log(error)
     })

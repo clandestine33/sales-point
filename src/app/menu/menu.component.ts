@@ -13,6 +13,8 @@ import { MenuService } from '../services/menu/menu.service';
 })
 export class MenuComponent implements OnInit {
   menu!: Menu;
+  totalCalories = 0;
+  calorieUnit: String = ''
   others: Menu[] = [];
   constructor(private menuService: MenuService,
     private actRouter: ActivatedRoute, private router: Router, private cartService: CartService, private authService: AuthService
@@ -27,7 +29,11 @@ export class MenuComponent implements OnInit {
   getMenuById(id: any){
     this.menuService.getMenuById(id).subscribe((data) => {
       this.menu = data.data;
-      console.log(this.menu)
+      for(let i= 0;i< this.menu.ingredients.length; i++){
+        this.calorieUnit =  this.menu.ingredients[0].calorieUnit;
+        this.totalCalories += this.menu.ingredients[i].calorie
+      }
+      console.log(this.menu, this.totalCalories, this.calorieUnit);
       this.getMenuByCategory(this.menu.category._id)
     }, error => {
       console.log(error)

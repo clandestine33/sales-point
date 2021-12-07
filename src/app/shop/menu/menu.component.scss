@@ -155,3 +155,11 @@
   }
 }
 
+.next{
+  @include text(2rem, left, 100%);
+
+  &-body{
+    color: #286090;
+    cursor: pointer;
+  }
+}

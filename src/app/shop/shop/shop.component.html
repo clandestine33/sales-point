@@ -10,7 +10,6 @@
           <tr class="text-center">
             <th class="table-body">No</th>
             <th class="table-body">Name</th>
-            <th class="table-body">Description</th>
             <th class="table-body">Address</th>
             <th class="table-body">Post Code</th>
             <th class="table-body">Approval Status</th>
@@ -21,7 +20,6 @@
           <tr class="text-center" *ngFor="let shop of shops| paginate:paginationConfig; let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ shop?.name }}</td>
-            <td>{{ shop?.description }}</td>
             <td>{{ shop?.address }}</td>
             <td>{{ shop?.postCode }}</td>
             <td>{{ shop?.approvalStatus }}</td>

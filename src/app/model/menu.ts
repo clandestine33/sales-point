@@ -21,7 +21,6 @@ export class Menu {
   ingredients!: any[];
   category!: Category;
   price!: number;
-  quantity!: number;
   status!: string;
   image!: Assest
 }

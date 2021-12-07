@@ -14,7 +14,10 @@
   }
 
 
-  @include text(2px, left, 40rem);
+  @include text(1.6rem, left, 40rem);
+  &-subheader {
+    margin: 0;
+  }
   @include button(#F05537, $white-color, #d1410c);
 
   &-button {

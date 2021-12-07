@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Category } from 'src/app/model/category';
 import { Ingredient } from 'src/app/model/ingredient';
 import { Menu } from 'src/app/model/menu';
@@ -17,7 +17,7 @@ import { ShopService } from 'src/app/services/shop/shop.service';
 export class MenuComponent implements OnInit {
   menus: Menu[] = [];
   categories: Category[] = [];
-  ingredients: Ingredient[] = [];
+  ingredientList: Ingredient[] = [];
   shops: Shop[] = [];
   selectedIngredients: Ingredient[] = [];
   menuForm!: FormGroup;
@@ -26,6 +26,7 @@ export class MenuComponent implements OnInit {
   isCreate: boolean = true;
   errorMsg!: any;
   isError: boolean = false;
+  isContinue: boolean = true;
   image!: File;
   itemPerPage = 10;
   paginationConfig:any = {};
@@ -81,19 +82,41 @@ export class MenuComponent implements OnInit {
       category: ['', Validators.required],
       shop: ['', Validators.required],
       price: ['', Validators.required],
-      quantity: ['', Validators.required],
+      ingredients: this._formBuilder.array([])
     });
+  }
+
+  createIngredient(ingredient: Ingredient):FormGroup {
+    return this._formBuilder.group({
+      name: ingredient.ingredient,
+      ingredient: ingredient._id,
+      calorie: ['', Validators.required],
+    });
+  }
+
+  get ingredients():FormArray {
+    return this.menuForm.get('ingredients') as FormArray;
+  }
+
+  addIngredient(ingredient:Ingredient):void{
+    this.ingredients.push(this.createIngredient(ingredient))
+  }
+
+  removeIngredient(i: number){
+    this.ingredients.removeAt(i);
   }
 
   onPick(ingredient: Ingredient) {
     if(this.selectedIngredients.includes(ingredient)){
       return
     }
-    this.selectedIngredients.push(ingredient)
+    this.selectedIngredients.push(ingredient);
+    this.addIngredient(ingredient)
   }
 
   remove(i: any) {
     this.selectedIngredients.splice(i, 1)
+    this.removeIngredient(i);
   }
 
   getMenusByUser() {
@@ -124,7 +147,7 @@ export class MenuComponent implements OnInit {
     this.ingredientService.getIngredients().subscribe(
       (data) => {
         console.log(data.data);
-        this.ingredients = data.data;
+        this.ingredientList = data.data;
       },
       (error) => {
         console.log(error);
@@ -177,7 +200,7 @@ export class MenuComponent implements OnInit {
 
   onSubmit() {
     this.submit = true;
-    if (this.menuForm.invalid || this.selectedIngredients.length === 0) {
+    if (this.menuForm.invalid || !this.image) {
       this.isError = true;
       this.errorMsg = 'Please select an ingredient or field the form properly';
       return;
@@ -186,8 +209,6 @@ export class MenuComponent implements OnInit {
     const formDate =  new FormData();
     formDate.append('image', this.image)
 
-    let menu: Menu = this.menuForm.value
-    menu.ingredients = this.selectedIngredients.map(item => item._id)
     this.menuService.createMenu(this.menuForm.value).subscribe(
       (data) => {
         console.log(data.data);
@@ -202,6 +223,8 @@ export class MenuComponent implements OnInit {
           element.style.display = 'none';
         }
         this.selectedIngredients = []
+        this.isContinue  = !this.isContinue;
+        this.ingredients.clear()
       },
       (error) => {
         this.isError = true;
@@ -209,6 +232,16 @@ export class MenuComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  onNext() {
+    if(this.isContinue === true && this.selectedIngredients.length < 1){
+      this.isError = true;
+      this.errorMsg = 'Please select an ingredient or field the form properly';
+      return;
+    }
+    this.isContinue  = !this.isContinue;
+
   }
 
   uploadFile(id: any, menuObject: any){

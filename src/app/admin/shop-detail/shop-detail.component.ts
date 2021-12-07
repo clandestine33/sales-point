@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Shop } from 'src/app/model/shop';
 import { ShopService } from 'src/app/services/shop/shop.service';
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-shop-detail',
@@ -11,11 +12,13 @@ import { ShopService } from 'src/app/services/shop/shop.service';
 export class ShopDetailComponent implements OnInit {
 
   shop!: Shop;
+  download = faDownload
   logo!: any;
   shopId: any
   constructor(
     private actRouter: ActivatedRoute,
     private shopService: ShopService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -38,13 +41,14 @@ export class ShopDetailComponent implements OnInit {
     })
   }
 
-  onApprove(id: any) {
+  onApprove() {
     let body = {
       approvalStatus: true
     }
 
-    this.shopService.approveShop(id, body).subscribe((data: any) => {
+    this.shopService.approveShop(this.shopId, body).subscribe((data: any) => {
       console.log(data.msg)
+      this.router.navigate(['/admin/shop']);
     },(error: any) => {
       console.log(error)
     })
@@ -52,7 +56,8 @@ export class ShopDetailComponent implements OnInit {
 
   deleteShop(){
     this.shopService.deleteShop(this.shopId).subscribe((data:any) => {
-      console.log(data.msg)
+      console.log(data.msg);
+      this.router.navigate(['/admin/shop']);
     }, (error: any) => {
       console.log(error);
     })

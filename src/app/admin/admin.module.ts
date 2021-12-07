@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ShopDetailComponent } from './shop-detail/shop-detail.component';
 import { OrdersComponent } from './orders/orders.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { OrdersComponent } from './orders/orders.component';
     AdminRoutingModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ]
 })
 export class AdminModule { }

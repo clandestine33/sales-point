@@ -29,7 +29,7 @@
                 <p>
                   Ingredients:
                   <span *ngFor="let ingredient of cart?.menu?.ingredients">
-                    {{ ingredient?.ingredient }},
+                    {{ ingredient?.ingredient?.ingredient }},
                   </span>
                 </p>
                 <button class="container-items-item-button" (click)="removeCart(cart?._id)">

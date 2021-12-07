@@ -8,8 +8,9 @@
       <p class="container-body">Description: {{menu?.description}}</p>
       <p class="container-body">Category: {{menu?.category?.category}}</p>
       <p class="container-body">
-        <span *ngFor="let ingredient of menu?.ingredients">{{ingredient?.ingredient}},</span>
+        Ingredients: <span *ngFor="let ingredient of menu?.ingredients" style="text-transform: capitalize;">{{ingredient?.ingredient?.ingredient}}, </span>
       </p>
+      <p class="container-body">Total Calories: {{totalCalories}}{{calorieUnit}}</p>
       <button class="container-button" (click)="addCart(menu?._id)">Add to cart</button>
     </div>
   </div>

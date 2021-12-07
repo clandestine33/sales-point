@@ -12,12 +12,9 @@ export class MenuService {
   menuURL = APIS.menuURL;
   constructor(private _http: HttpClient) { }
 
-  httpOptions = {
-    headers: new HttpHeaders({"Content-Type" : "application/json"})
-  }
-
   createMenu(menu: Menu): Observable<any>{
-    return this._http.post<Menu>(this.menuURL, JSON.stringify(menu),this.httpOptions).pipe(
+    console.log(menu)
+    return this._http.post<Menu>(this.menuURL, menu).pipe(
       retry(1),
       catchError(this.handleError)
     )
@@ -46,7 +43,7 @@ export class MenuService {
 
 
   updateMenu(id:any, shop: any):Observable<any>{
-    return this._http.patch<any>(this.menuURL+id, JSON.stringify(shop), this.httpOptions).pipe(
+    return this._http.patch<any>(this.menuURL+id, JSON.stringify(shop)).pipe(
       retry(1),
       catchError(this.handleError)
     )

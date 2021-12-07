@@ -14,9 +14,9 @@
             <p class="order-right-subheader">{{order?.orderId}}</p>
             <p class="order-right-body">{{order?.menu?.name}}</p>
             <p class="order-right-subheader">{{order?.createdAt | date:'medium'}}</p>
-            <p class="order-right-body">{{order?.status}}</p>
-            <p class="order-right-body">{{order?.address}}</p>
-            <p class="order-right-body">{{order?.calorie}}{{order?.calorieUnit}}</p>
+            <p class="order-right-body">Status: {{order?.status}}</p>
+            <p class="order-right-body">Address: {{order?.address}}</p>
+            <p class="order-right-body">Calories: {{order?.calorie}}{{order?.calorieUnit}}</p>
           </div>
           <div class="order-right-box">
             <p class="order-right-body">Qty: {{order?.quantity}}</p>
