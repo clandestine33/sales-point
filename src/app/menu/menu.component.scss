@@ -7,6 +7,10 @@
   margin: 0 auto;
   width: 80%;
 
+  @media only screen and (max-width: $laptop-small) {
+    width: 100%;
+  }
+
   &-item {
     width: 100%;
     display: flex;
@@ -15,9 +19,17 @@
 
 
   @include text(1.6rem, left, 40rem);
+
+  &-body{
+    @media only screen and (max-width: $tablet-small) {
+      margin: 1rem;
+    }
+  }
+
   &-subheader {
     margin: 0;
   }
+
   @include button(#F05537, $white-color, #d1410c);
 
   &-button {
@@ -27,7 +39,7 @@
 
   &-image {
     width: 30rem;
-    height: 34rem;
+    height: 36rem;
     border-radius: 5px;
   }
 
