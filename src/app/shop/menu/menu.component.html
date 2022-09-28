@@ -114,9 +114,11 @@
               </div>
             </div>
             <div class="form-group row mb-2">
-              <label for="exampleFormControlFile1">Image</label>
-              <input type="file" #logo class="form-control-file" id="exampleFormControlFile1" name="logo"
-                (change)="selectImage($event)" placeholder="logo" required />
+              <form #fileuploader>
+                <label for="imageUpload">Image</label>
+                <input type="file" class="form-control-file" id="imageUpload" name="logo"
+                       (change)="selectImage($event)" placeholder="logo" required #fileInput/>
+              </form>
             </div>
           </div>
           <div *ngIf="!isContinue">

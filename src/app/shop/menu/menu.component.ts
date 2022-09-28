@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Category } from 'src/app/model/category';
 import { Ingredient } from 'src/app/model/ingredient';
@@ -24,12 +24,19 @@ export class MenuComponent implements OnInit {
   menu!: Menu;
   submit: Boolean = false;
   isCreate: boolean = true;
+  base64File: any;
+  fileObjectList: any[] = [];
+  fileName!: string;
+  fileSize: any;
   errorMsg!: any;
   isError: boolean = false;
   isContinue: boolean = true;
   image!: File;
   itemPerPage = 10;
   paginationConfig:any = {};
+  allowedMimeType: any[] = ['image/png', 'image/jpeg'];
+  @ViewChild("fileuploader", /* TODO: add static flag */ { read: ElementRef }) fileUploader!: ElementRef;
+
   constructor(
     private menuService: MenuService,
     private _formBuilder: FormBuilder,
@@ -70,8 +77,58 @@ export class MenuComponent implements OnInit {
 
   selectImage(event: any) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0]
-      this.image = file
+      this.setDocument(event.target.files[0]);
+
+    }
+  }
+
+  setDocument(file: any): void {
+    if (this.allowedMimeType.indexOf(file.type) != -1) {
+      let size = (file.size / 1024) / 1024
+      if (size > 5) {
+        this.errorMsg = 'Maximum size is 5MB';
+        this.resetFileInput()
+        return;
+      }
+      this.fileName = file.name.length > 10 ? file.name.substring(0, 10) + '...' : file.name
+      this.fileSize = ((file.size / 1024) / 1024).toFixed(2) + 'MB'
+      const toBase64 = (file: any) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      };
+
+      toBase64(file)
+        .then(data => {
+          this.base64File = data
+          const fileObject = {
+            id: this.fileObjectList.length + 1, fileType: this.getFileType(file.type),
+            URL: this.base64File,
+            name: this.fileName,
+            fieldName: file.name,
+            size: this.fileSize,
+            type: this.getFileType(file.type)
+          }
+
+        })
+    } else {
+      this.resetFileInput();
+      this.errorMsg = 'File format not supported ';
+    }
+  }
+
+  resetFileInput() {
+    this.fileUploader.nativeElement.reset();
+  }
+
+  getFileType(type:string):any{
+     if (type.includes('png')) {
+      return 'png'
+    } else if (type.includes('jpg') || type.includes('jpeg')) {
+      return 'jpg'
     }
   }
 
@@ -206,9 +263,6 @@ export class MenuComponent implements OnInit {
       return;
     }
 
-    const formDate =  new FormData();
-    formDate.append('image', this.image)
-
     this.menuService.createMenu(this.menuForm.value).subscribe(
       (data) => {
         console.log(data.data);
@@ -216,7 +270,6 @@ export class MenuComponent implements OnInit {
         Object.keys(this.menuForm.controls).forEach((key) => {
           this.menuForm.get(key)?.setErrors(null);
         });
-        this.uploadFile(data.data._id, formDate);
         this.getMenusByUser();
         const element = document.getElementById('edit');
         if (element) {
