@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { ChefRoutingModule } from './chef-routing.module';
 import { ChefComponent } from './chef.component';
-import { ShopComponent1 } from './shop/shop.component';
+import { ShopComponent } from './shop/shop.component';
 import { OrderComponent } from './order/order.component';
-import { MenuComponent } from './menu/menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -14,8 +13,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   declarations: [
     ChefComponent,
     OrderComponent,
-    MenuComponent,
-    ShopComponent1
+    ShopComponent
   ],
   imports: [
     CommonModule,

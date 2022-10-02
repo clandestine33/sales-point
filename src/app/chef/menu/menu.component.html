@@ -2,69 +2,33 @@
   <div class="container-header">
     <p class="container-header-body">Menu Settings</p>
   </div>
-  <div class="container-body">
-    <button class="container-button" (click)="addMenu()">Create Menu</button>
-    <div>
-      <table class="table" style="margin-bottom: 2rem">
-        <thead>
-          <tr class="text-center">
-            <th class="table-body">No</th>
-            <th class="table-body">Name</th>
-            <th class="table-body">Description</th>
-            <th class="table-body">Shop</th>
-            <th class="table-body">Ingredients</th>
-            <th class="table-body">Category</th>
-            <th class="table-body">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="text-center" *ngFor="let menu of menus| paginate:paginationConfig; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ menu.name }}</td>
-            <td>{{menu?.currency}}{{ menu?.price }}</td>
-            <td>{{ menu?.shop?.name }}</td>
-            <td>
-              <span *ngFor="let ingredient of menu?.ingredients">{{ ingredient?.ingredient?.ingredient}},</span>
-            </td>
-            <td>{{ menu?.category?.category }}</td>
-            <td style="display: flex; justify-content: space-evenly;">
-              <button class="decline-button" (click)="deleteMenu(menu?._id)">
-                Delete
-              </button>
-              <button class="approve-button" (click)="getMenu(menu?._id)">
-                Edit
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
-      <div class="container-form" style="display: none;" id="edit">
-        <p *ngIf="isCreate">Create Menu</p>
-        <p *ngIf="isError">{{errorMsg}}</p>
-        <p *ngIf="!isCreate">Edit Menu</p>
-        <form class="form" autocomplete="off" [formGroup]="menuForm">
-          <div *ngIf="isContinue">
-            <div class="form__group">
-              <label for="name" class="form__label">Name</label>
-              <input type="text" class="form__input form-control" id="name" name="name" formControlName="name"
+  <app-menu-list></app-menu-list>
+  <div class="container-form" style="display: none;" id="edit">
+    <p *ngIf="isCreate">Create Menu</p>
+    <p *ngIf="isError">{{errorMsg}}</p>
+    <p *ngIf="!isCreate">Edit Menu</p>
+    <form class="form" autocomplete="off" [formGroup]="menuForm">
+      <div *ngIf="isContinue">
+        <div class="form__group">
+          <label for="name" class="form__label">Name</label>
+          <input type="text" class="form__input form-control" id="name" name="name" formControlName="name"
                 placeholder="name" required [ngClass]="{ 'is-invalid': submit && f.name.errors }" />
-              <div *ngIf="f.name.errors" class="invalid-feedback">
-                <div *ngIf="f.name.errors.required">menu name is required</div>
-              </div>
-            </div>
-            <div class="form__group">
-              <label for="description" class="form__label">Description</label>
-              <input type="text" class="form__input form-control" id="description" name="description"
+          <div *ngIf="f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">menu name is required</div>
+          </div>
+        </div>
+        <div class="form__group">
+          <label for="description" class="form__label">Description</label>
+          <input type="text" class="form__input form-control" id="description" name="description"
                 formControlName="description" placeholder="description" required
                 [ngClass]="{ 'is-invalid': submit && f.description.errors }" />
-              <div *ngIf="f.description.errors" class="invalid-feedback">
-                <div *ngIf="f.description.errors.required">description is required</div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="form__group col">
-                <label for="category">Category</label>
+          <div *ngIf="f.description.errors" class="invalid-feedback">
+            <div *ngIf="f.description.errors.required">description is required</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form__group col">
+            <label for="category">Category</label>
                 <select id="category" class="form__input form-select" style="width: 95%" formControlName="category"
                   placeholder="category" [ngClass]="{ 'is-invalid': submit && f.category.errors }">
                   <option selected>Choose...</option>
@@ -159,6 +123,5 @@
           </button>
         </form>
       </div>
-    </div>
-  </div>
 </div>
+

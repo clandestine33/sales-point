@@ -8,7 +8,7 @@ import { ShopService } from 'src/app/services/shop/shop.service';
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss']
 })
-export class ShopComponent1 implements OnInit {
+export class ShopComponent implements OnInit {
   shops: Shop[] = [];
   shop!: Shop;
   shopForm!: FormGroup;

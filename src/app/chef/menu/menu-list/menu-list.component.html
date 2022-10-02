@@ -1,1 +1,39 @@
-<p>menu-list works!</p>
+<div class="container-body">
+  <button class="container-button" (click)="addMenu()">Create Menu</button>
+  <div>
+    <table class="table" style="margin-bottom: 2rem">
+      <thead>
+      <tr class="text-center">
+        <th class="table-body">No</th>
+        <th class="table-body">Name</th>
+        <th class="table-body">Description</th>
+        <th class="table-body">Shop</th>
+        <th class="table-body">Ingredients</th>
+        <th class="table-body">Category</th>
+        <th class="table-body">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="text-center" *ngFor="let menu of menus| paginate:paginationConfig; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ menu.name }}</td>
+        <td>{{menu?.currency}}{{ menu?.price }}</td>
+        <td>{{ menu?.shop?.name }}</td>
+        <td>
+          <span *ngFor="let ingredient of menu?.ingredients">{{ ingredient?.ingredient?.ingredient}},</span>
+        </td>
+        <td>{{ menu?.category?.category }}</td>
+        <td style="display: flex; justify-content: space-evenly;">
+          <button class="decline-button" (click)="deleteMenu(menu?._id)">
+            Delete
+          </button>
+          <button class="approve-button" (click)="getMenu(menu?._id)">
+            Edit
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+  </div>
+</div>

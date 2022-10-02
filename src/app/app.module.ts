@@ -15,7 +15,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatInputModule} from '@angular/material/input';
 import {NgxPaginationModule} from 'ngx-pagination';
-import { environment } from '../environments/environment';
 import { CheckoutComponent } from './checkout/checkout.component'
 @NgModule({
   declarations: [
