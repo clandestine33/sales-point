@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Category } from 'src/app/model/category';
 import { Ingredient } from 'src/app/model/ingredient';
-import { Menu } from 'src/app/model/menu';
+import { Assest, Menu } from 'src/app/model/menu';
 import { Shop } from 'src/app/model/shop';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { IngredientService } from 'src/app/services/ingredient/ingredient.service';
@@ -16,6 +16,7 @@ import { ShopService } from 'src/app/services/shop/shop.service';
 })
 export class MenuComponent implements OnInit {
   menus: Menu[] = [];
+  createMenu:Menu = new Menu();
   categories: Category[] = [];
   ingredientList: Ingredient[] = [];
   shops: Shop[] = [];
@@ -25,17 +26,18 @@ export class MenuComponent implements OnInit {
   submit: Boolean = false;
   isCreate: boolean = true;
   base64File: any;
-  fileObjectList: any[] = [];
+  fileObject:any;
   fileName!: string;
   fileSize: any;
   errorMsg!: any;
   isError: boolean = false;
   isContinue: boolean = true;
-  image!: File;
   itemPerPage = 10;
   paginationConfig:any = {};
   allowedMimeType: any[] = ['image/png', 'image/jpeg'];
   @ViewChild("fileuploader", /* TODO: add static flag */ { read: ElementRef }) fileUploader!: ElementRef;
+  isImage: boolean = false;
+  image!: Assest
 
   constructor(
     private menuService: MenuService,
@@ -104,16 +106,18 @@ export class MenuComponent implements OnInit {
       toBase64(file)
         .then(data => {
           this.base64File = data
-          const fileObject = {
-            id: this.fileObjectList.length + 1, fileType: this.getFileType(file.type),
+          this.fileObject = {
+            id: 1, fileType: this.getFileType(file.type),
             URL: this.base64File,
             name: this.fileName,
             fieldName: file.name,
             size: this.fileSize,
             type: this.getFileType(file.type)
           }
-
+          this.image = this.fileObject;
+          this.isImage = true;
         })
+
     } else {
       this.resetFileInput();
       this.errorMsg = 'File format not supported ';
@@ -257,13 +261,16 @@ export class MenuComponent implements OnInit {
 
   onSubmit() {
     this.submit = true;
-    if (this.menuForm.invalid || !this.image) {
+    if (this.menuForm.invalid || !this.isImage) {
       this.isError = true;
       this.errorMsg = 'Please select an ingredient or field the form properly';
       return;
     }
+    this.createMenu = this.menuForm.value;
+    this.createMenu.image = this.fileObject;
+    console.log(this.createMenu);
 
-    this.menuService.createMenu(this.menuForm.value).subscribe(
+    this.menuService.createMenu(this.createMenu).subscribe(
       (data) => {
         console.log(data.data);
         this.menuForm.reset();

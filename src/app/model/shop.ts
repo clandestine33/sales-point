@@ -16,7 +16,8 @@ export class Shop {
   address!: String;
   postCode!: String;
   approvalStatus!: String;
-  certificates!: Assest[]
+  certificates!: Assest[];
+  logo!: Assest;
   createdAt!: Date;
   updatedAt!: Date;
 }

@@ -108,43 +108,35 @@
             </div>
           </div>
           <div class="form-group row mb-2">
-            <label for="exampleFormControlFile1">Logo</label>
-            <input
-              type="file"
-              #logo
-              class="form-control-file"
-              id="exampleFormControlFile1"
-              name="logo"
-              (change)="selectLogo($event)"
-              placeholder="logo"
-              required
-            />
+            <form #logoFileUploader>
+              <label for="exampleFormControlFile1">Logo</label>
+              <input
+                type="file"
+                #logo
+                class="form-control-file"
+                id="exampleFormControlFile1"
+                name="logo"
+                (change)="selectLogo($event)"
+                placeholder="logo"
+                required
+                #logoInput
+              />
+            </form>
           </div>
           <div class="form-group row mb-2">
-            <label for="image">Image</label>
-            <input
-              type="file"
-              class="form-control-file"
-              id="image"
-              name="image"
-              #image
-              (change)="selectImage($event)"
-              placeholder="image"
-              required
-            />
-          </div>
-          <div class="form-group row mb-2">
-            <label for="document">Document</label>
-            <input
-              type="file"
-              class="form-control-file"
-              id="document"
-              name="document"
-              (change)="selectDocument($event)"
-              placeholder="document"
-              #document
-              required
-            />
+            <form #documentFileUploader>
+              <label for="document">Document</label>
+              <input
+                type="file"
+                class="form-control-file"
+                id="document"
+                name="document"
+                (change)="selectDocument($event)"
+                placeholder="document"
+                #documentInput
+                required
+              />
+            </form>
           </div>
           <button class="form-button" *ngIf="isCreate" (click)="onSubmit()">
             Save
