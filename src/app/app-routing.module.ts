@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { CustomerComponent } from './customer/customer.component';
 import { HomeComponent } from './home/home.component';
-import { ShopComponent } from './shop/shop.component';
+import { ChefComponent } from './chef/chef.component';
 import { AuthGraudService as AuthGuard } from 'src/app/services/routing-service/auth-graud.service'
 import { CartComponent } from './cart/cart.component';
 import { CategoryComponent } from './category/category.component';
@@ -40,11 +40,11 @@ const routes: Routes = [
   {
     path:'shop',
     canActivate:[AuthGuard],
-    component: ShopComponent,
+    component: ChefComponent,
     children:[
     {
       path:'',
-      loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule)
+      loadChildren: () => import('./chef/chef.module').then(m => m.ChefModule)
     }
   ]},
   {
